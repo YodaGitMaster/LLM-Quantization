@@ -84,3 +84,38 @@ tflite_model = converter.convert()
 with open("model_quantized.tflite", "wb") as f:
     f.write(tflite_model)
 ```
+
+# FAQ
+## Why is quantization done?
+
+Quantization typically involves reducing the precision of the numbers used in a model, such as converting 32-bit floating-point numbers to 8-bit integers. This reduction in precision achieves the following:
+```
+    Reduces model size.
+    Speeds up inference, especially on devices with hardware that accelerates integer arithmetic.
+    Reduces power consumption, which is especially useful for edge devices.
+```
+### What's the challenge with quantization?
+
+Reducing precision can lead to a loss of information. In the context of neural networks, this could affect the dynamic range and granularity of weights and activations. Incorrect quantization could lead to model degradation.
+
+Role of the representative_dataset:
+
+To ensure that the quantization process does not significantly harm the model's performance, the quantizer needs to understand the distribution of the model's activations (intermediate outputs) across typical data. This understanding allows it to set appropriate scales and zero-points for quantization.
+
+The representative_dataset serves the following purposes:
+```
+    Dynamic Range Calibration: It provides a range of values the model's activations can take. This helps in setting the right scale for each activation, ensuring that quantization doesn't clip values or use a scale that's too large/small.
+
+    Model Behavior: It offers insight into how the model behaves with real-world data. This is essential for activations, which can vary based on input data.
+
+    Quantization Bins: Knowing the data distribution helps in setting the "bins" used for quantization. For instance, in uniform quantization, values are grouped into equally sized bins. But if data isn't uniformly distributed, this can be suboptimal.
+
+    Minimizing Accuracy Drop: By quantizing based on real data distribution, the risk of significant accuracy drop due to quantization is minimized.
+```
+### Is it always needed?
+
+For weight quantization alone, a representative_dataset isn't strictly necessary. Weights are static and don't change based on input data, so their distribution can be directly analyzed.
+
+However, for activations, which are dynamic and change based on input data, a representative_dataset is essential for full integer quantization. Without this, the quantizer would be working blind, potentially leading to suboptimal or even incorrect quantization parameters.
+
+--------------------------------------------------------------------------------------------
