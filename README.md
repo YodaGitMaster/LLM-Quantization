@@ -119,3 +119,12 @@ For weight quantization alone, a representative_dataset isn't strictly necessary
 However, for activations, which are dynamic and change based on input data, a representative_dataset is essential for full integer quantization. Without this, the quantizer would be working blind, potentially leading to suboptimal or even incorrect quantization parameters.
 
 --------------------------------------------------------------------------------------------
+
+## Rferences
+- https://byfintech.medium.com/beginners-guide-to-fingpt-training-with-lora-chatglm2-6b-9eb5ace7fe99
+- https://medium.datadriveninvestor.com/fingpt-powering-the-future-of-finance-with-20-cutting-edge-applications-7c4d082ad3d8
+- https://www.enterpriseai.news/2023/06/29/predicting-the-financial-market-with-large-language-models/
+- https://github.com/AI4Finance-Foundation/FinGPT
+- https://www.theregister.com/2023/04/18/large_language_models_like_chatgpt/
+- https://www.kaggle.com/datasets/miguelaenlle/massive-stock-news-analysis-db-for-nlpbacktests
+- https://huggingface.co/oliverwang15/FinGPT_v33_Llama2_13B_Sentiment_Instruction_LoRA_FT_8bit
